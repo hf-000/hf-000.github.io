@@ -2,7 +2,12 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; connect-src *">
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'none';
+    script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;
+    style-src 'unsafe-inline';
+    img-src data:;
+    connect-src *;">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Markdown 展示</title>
   <style>
@@ -26,7 +31,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
-  // 把这里的 URL 换成你的 md 文件公开访问地址
+  // 修改为你实际的 Markdown 文件地址
   const mdUrl = 'www.itachi0.icu/article/ML.md';
 
   fetch(mdUrl)
@@ -35,7 +40,6 @@
       return response.text();
     })
     .then(text => {
-      // 用 marked.js 解析 md 内容为 html
       document.getElementById('content').innerHTML = marked.parse(text);
     })
     .catch(err => {
