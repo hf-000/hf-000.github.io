@@ -62,15 +62,18 @@
     }
 
     pre {
-  background: #fff;           /* 白色背景 */
-  color: #333;                /* 深色文字 */
+  background: #fff;
+  color: #333;
   padding: 15px;
   border-radius: 6px;
   overflow-x: auto;
+  overflow-y: auto;      /* 新增，允许竖向滚动 */
+  max-height: 7.5em;     /* 新增，限制最大高度为5行 */
   font-family: Consolas, Monaco, "Courier New", monospace;
   font-size: 15px;
   line-height: 1.5;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1); /* 轻微阴影，让代码块更有层次 */
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  scroll-behavior: smooth;
 }
 
 code {
