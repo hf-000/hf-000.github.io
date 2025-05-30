@@ -9,45 +9,132 @@
     img-src data:;
     connect-src *;">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Markdown 展示</title>
+  <title>Markdown 博客</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      max-width: 700px;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 40px auto;
+      background: #fafafa;
+      padding: 20px 25px;
+      color: #444;
+      line-height: 1.6;
     }
+
+    h1 {
+      text-align: center;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 40px;
+      letter-spacing: 1.5px;
+    }
+
+    nav {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .nav-button {
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 12px 28px;
+      margin: 0 8px 15px;
+      box-shadow: 0 3px 7px rgb(0 123 255 / 0.5);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .nav-button:hover {
+      background-color: #0056b3;
+      box-shadow: 0 6px 14px rgb(0 86 179 / 0.6);
+    }
+
+    #content {
+      background: #fff;
+      border-radius: 10px;
+      padding: 25px 30px;
+      box-shadow: 0 10px 30px rgb(0 0 0 / 0.1);
+      overflow-wrap: break-word;
+      font-size: 18px;
+    }
+
     pre {
-      background: #f0f0f0;
-      padding: 10px;
-      overflow-x: auto;
+  background: #fff;           /* 白色背景 */
+  color: #333;                /* 深色文字 */
+  padding: 15px;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-family: Consolas, Monaco, "Courier New", monospace;
+  font-size: 15px;
+  line-height: 1.5;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1); /* 轻微阴影，让代码块更有层次 */
+}
+
+code {
+  background: transparent;    /* 代码文字无背景 */
+  padding: 0;
+  border-radius: 0;
+  color: inherit;             /* 继承 pre 的文字颜色 */
+  font-family: inherit;
+  font-size: inherit;
+}
+
+
+    /* 标题样式加点层次 */
+    h2, h3, h4 {
+      color: #2c3e50;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      font-weight: 600;
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 5px;
+      letter-spacing: 0.03em;
     }
   </style>
 </head>
 <body>
 
-<h1>我的 Markdown 博客</h1>
+<h1>Itachi</h1>
 
-<div id="content">正在加载 Markdown 文件…</div>
+<nav>
+  <button class="nav-button" data-md="ox3f.md">算法</button>
+  <button class="nav-button" data-md="ML.md">机器学习</button>
+  <!-- <button class="nav-button" data-md="AI.md">人工智能</button>
+  <button class="nav-button" data-md="Project.md">项目实战</button> -->
+</nav>
+
+<div id="content">请选择上方主题加载 Markdown 内容…</div>
 
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
-  // 修改为你实际的 Markdown 文件地址
-  const mdUrl = 'http://www.itachi0.icu/article/ML.md';
+  const baseUrl = 'http://www.itachi0.icu/article/';
 
-  fetch(mdUrl)
-    .then(response => {
-      if (!response.ok) throw new Error('文件加载失败，状态码: ' + response.status);
-      return response.text();
-    })
-    .then(text => {
-      document.getElementById('content').innerHTML = marked.parse(text);
-    })
-    .catch(err => {
-      document.getElementById('content').innerHTML = '加载失败: ' + err.message;
-      console.error(err);
+  document.querySelectorAll('.nav-button').forEach(button => {
+    button.addEventListener('click', () => {
+      const mdFile = button.getAttribute('data-md');
+      const fullUrl = baseUrl + mdFile;
+
+      const contentDiv = document.getElementById('content');
+      contentDiv.innerHTML = '正在加载 ' + mdFile + ' …';
+
+      fetch(fullUrl)
+        .then(response => {
+          if (!response.ok) throw new Error('加载失败: ' + response.status);
+          return response.text();
+        })
+        .then(text => {
+          contentDiv.innerHTML = marked.parse(text);
+        })
+        .catch(error => {
+          contentDiv.innerHTML = '加载出错: ' + error.message;
+          console.error(error);
+        });
     });
+  });
 </script>
 
 </body>
 </html>
-
