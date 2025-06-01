@@ -1,6 +1,6 @@
 ##### 使用docker登录opengauss
 
-```linux
+```bash
 $ su omm
 $ gsql -d postgres -p 5432
 
@@ -13,7 +13,7 @@ GRANT CONNECT ON DATABASE test TO myuser;//赋予用户连接数据库的权限
 
 ##### 在终端运行，授予用户权利
 
-```
+```bash
 GRANT CREATE ON SCHEMA public TO myuser;
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO myuser;
@@ -21,7 +21,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO myuser;
 
 ##### 忘记用户密码
 
-```
+```bash
 su omm
 gsql -d postgres -p 5432
 ALTER USER myuser WITH PASSWORD 'new_password';

@@ -3,24 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="Content-Security-Policy" content="
-    default-src 'none';
-    script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com;
-    style-src 'unsafe-inline' https://cdnjs.cloudflare.com;
-    img-src data:;
-    connect-src *;">
+  default-src 'none';
+  script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com;
+  style-src 'unsafe-inline' https://cdnjs.cloudflare.com;
+  img-src 'self' data:;
+  connect-src *;">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>itachi的学习之路</title>
 
   <style>
     body {
+      opacity: 1;
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       max-width: 900px;
       margin: 60px auto 80px;
-      background: #f0f4f8;
       padding: 20px 25px;
       color: #333;
       line-height: 1.7;
       user-select: none;
+      position: relative;
+      z-index: 0;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('images/itachi.png') center center / cover no-repeat;
+      opacity: 1; /* 可根据需要调整透明度 */
+      z-index: -1;
     }
   
     h1 {
@@ -61,7 +75,7 @@
     }
   
     #content {
-      background: #ffffff;
+      background:rgba(255, 255, 255, 0.7); /* 85% 不透明，越低越透明 */
       border-radius: 14px;
       padding: 30px 40px;
       box-shadow: 0 16px 48px rgba(0,0,0,0.1);
