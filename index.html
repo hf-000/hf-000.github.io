@@ -38,14 +38,21 @@
     }
   
     h1 {
-      text-align: center;
-      font-weight: 800;
-      color: #1e2a38;
-      margin-bottom: 50px;
-      letter-spacing: 2px;
-      font-size: 3rem;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
-    }
+  text-align: center;
+  font-weight: 800;
+  margin-bottom: 50px;
+  letter-spacing: 2px;
+  font-size: 3rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+h1 span {
+  background: linear-gradient(45deg, #ff4e50, #f9d423);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
   
     nav {
       text-align: center;
@@ -133,7 +140,7 @@
 </head>
 <body>
 
-<h1>Itachi</h1>
+<h1><span>Itachi</span></h1>
 
 <nav>
   <button class="nav-button" data-md="myBlog.md">MyFirstBolg</button>
