@@ -13,7 +13,7 @@ GRANT CONNECT ON DATABASE test TO myuser;//赋予用户连接数据库的权限
 
 ##### 在终端运行，授予用户权利
 
-```bash
+```shell
 GRANT CREATE ON SCHEMA public TO myuser;
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO myuser;
@@ -38,7 +38,7 @@ gsql -d postgres -U myuser -p 5432
 
 ##### redis的docker-compose.yaml
 
-```
+```bash
 services:
   redis:
     image: redis

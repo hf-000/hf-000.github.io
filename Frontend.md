@@ -2,7 +2,7 @@
 
 ##### 构建前端
 
-```
+```bash
 npm run build
 ```
 
@@ -10,13 +10,13 @@ npm run build
 
 这将把本地 `dist` 文件夹中的所有文件复制到 Nginx 容器的 `/usr/share/nginx/html/` 目录中，Nginx 默认从这个目录提供静态文件。
 
-```
+```bash
 docker cp ./dist/. nginx-container-id:/usr/share/nginx/html/
 ```
 
 #### 配置服务器上docker里面的nginx.conf，注意一定要把service写在http里面！！！
 
-```
+```shell
 user  nginx;
 worker_processes  1;
 
@@ -67,7 +67,7 @@ http {
 
 配置好后启动nginx容器
 
-```
+```bash
 docker run -d -p 8080:80 --name nginx  -v   /root/nginx.conf:/etc/nginx/nginx.conf:ro   -v  /root/dist:/usr/share/nginx/html:ro     nginx
 ```
 
