@@ -8,11 +8,18 @@
         default-src 'none';
         script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com;
         style-src 'unsafe-inline' https://cdnjs.cloudflare.com;
-        img-src 'self' data:;
+        img-src 'self' data: https:;
         connect-src *;"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>itachi的学习之路</title>
+    
+    <!-- 网站图标 -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png">
+    <link rel="apple-touch-icon" href="images/favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
 
     <link
       rel="stylesheet"
@@ -21,16 +28,13 @@
 
     <style>
       body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        max-width: 1000px;
-        margin: 60px auto 80px;
-        padding: 20px 25px;
-        line-height: 1.7;
-        user-select: none;
-        position: relative;
-        z-index: 0;
-        background-color: #1e1e1e;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background-color: #0a0a0a;
         color: #eee;
+        overflow-x: hidden;
       }
 
       #particles-js {
@@ -39,7 +43,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: -3;
+        z-index: 1;
       }
 
       body::before {
@@ -50,123 +54,219 @@
         width: 100%;
         height: 100%;
         background: url("images/itachi.png") center center / cover no-repeat;
-        opacity: 0.5;
-        z-index: -2;
+        opacity: 0.2;
+        z-index: 0;
+      }
+
+      .container {
+        position: relative;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        z-index: 2;
       }
 
       h1 {
         text-align: center;
-        font-weight: 800;
-        margin-bottom: 50px;
-        letter-spacing: 2px;
-        font-size: 3rem;
-        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        font-weight: 900;
+        margin: 40px 0;
+        font-size: 4rem;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        background: linear-gradient(135deg, #ff4e50, #f9d423);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 2px 2px 20px rgba(249, 212, 35, 0.2);
+        animation: glow 2s ease-in-out infinite alternate;
       }
 
-      h1 span {
-        background: linear-gradient(45deg, #ff4e50, #f9d423);
-        background-clip: text;
-        -webkit-background-clip: text;
-        color: transparent;
+      @keyframes glow {
+        from {
+          text-shadow: 0 0 20px rgba(249, 212, 35, 0.2);
+        }
+        to {
+          text-shadow: 0 0 30px rgba(249, 212, 35, 0.4);
+        }
       }
 
       nav {
-        text-align: center;
-        margin-bottom: 40px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        margin: 30px 0 50px;
+        padding: 0 20px;
       }
 
       .nav-button {
-        background: linear-gradient(135deg, #3a8dff, #0052cc);
-        border: none;
-        border-radius: 8px;
-        color: white;
+        position: relative;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        color: #fff;
         cursor: pointer;
-        font-size: 18px;
-        padding: 14px 36px;
-        margin: 0 12px 20px;
-        box-shadow: 0 6px 12px rgba(58, 141, 255, 0.5);
-        transition: background 0.3s ease, box-shadow 0.3s ease,
-          transform 0.15s ease;
+        font-size: 16px;
+        padding: 12px 24px;
         font-weight: 600;
-        letter-spacing: 0.03em;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        overflow: hidden;
       }
 
-      .nav-button:hover,
-      .nav-button:focus {
-        background: linear-gradient(135deg, #0052cc, #3a8dff);
-        box-shadow: 0 10px 20px rgba(0, 82, 204, 0.7);
+      .nav-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: 0.5s;
+      }
+
+      .nav-button:hover {
         transform: translateY(-3px);
-        outline: none;
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .nav-button:hover::before {
+        left: 100%;
       }
 
       #content {
         max-width: 1000px;
-        background: rgba(50, 50, 50, 0.85);
-        border-radius: 18px;
-        padding: 40px 50px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
-        font-size: 22px;
-        color: #ddd;
-        min-height: 360px;
-        line-height: 1.85;
-        word-break: break-word;
-        transition: opacity 0.35s ease;
-        user-select: text;
         margin: 0 auto;
+        background: rgba(20, 20, 20, 0.8);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #eee;
+        font-size: 16px;
+        line-height: 1.8;
+        transition: all 0.3s ease;
+      }
+
+      #content:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
       }
 
       pre {
-        background: #2d2d2d;
-        color: #c5c8c6;
-        padding: 18px;
+        background: rgba(0, 0, 0, 0.5);
         border-radius: 10px;
+        padding: 20px;
         overflow-x: auto;
-        max-height: 7.5em;
-        font-family: Consolas, Monaco, "Courier New", monospace;
-        font-size: 15px;
-        line-height: 1.5;
-        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
-        scroll-behavior: smooth;
-        margin-bottom: 1.5em;
-        user-select: text;
+        max-height: 500px;
+        overflow-y: auto;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        font-family: 'Fira Code', Consolas, Monaco, 'Courier New', monospace;
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 20px 0;
+        position: relative;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255, 255, 255, 0.3) rgba(0, 0, 0, 0.2);
       }
 
-      code {
-        background: transparent;
+      /* 自定义滚动条样式 */
+      pre::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+
+      pre::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
+      }
+
+      pre::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 4px;
+      }
+
+      pre::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.4);
+      }
+
+      pre code {
         padding: 0;
-        border-radius: 0;
-        color: inherit;
-        font-family: inherit;
+        background: transparent;
         font-size: inherit;
+        white-space: pre;
+        tab-size: 4;
       }
 
-      h2,
-      h3,
-      h4 {
-        color: #ddd;
-        margin-top: 36px;
-        margin-bottom: 18px;
+      h2, h3, h4 {
+        color: #fff;
+        margin-top: 40px;
+        margin-bottom: 20px;
         font-weight: 700;
-        border-bottom: 3px solid #61dafb;
-        padding-bottom: 8px;
-        letter-spacing: 0.04em;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      h2::after, h3::after, h4::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100px;
+        height: 3px;
+        background: linear-gradient(90deg, #61dafb, transparent);
+        border-radius: 3px;
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2.5rem;
+          margin: 30px 0;
+        }
+
+        nav {
+          flex-direction: column;
+          align-items: stretch;
+          padding: 0 15px;
+        }
+
+        .nav-button {
+          width: 100%;
+          text-align: center;
+        }
+
+        #content {
+          padding: 25px;
+          font-size: 15px;
+        }
       }
     </style>
   </head>
   <body>
-    <!-- 粒子背景层 -->
     <div id="particles-js"></div>
+    <div class="container">
+      <h1>Itachi</h1>
 
-    <h1><span>Itachi</span></h1>
+      <nav>
+        <button class="nav-button" data-md="myBlog.md">MyFirstBlog</button>
+        <button class="nav-button" data-md="Backend.md">Backend</button>
+        <button class="nav-button" data-md="Frontend.md">Frontend</button>
+        <button class="nav-button" data-md="Database.md">Database</button>
+        <button class="nav-button" data-md="docker.md">Docker</button>
+        <button class="nav-button" data-md="github.md">Github</button>
+      </nav>
 
-    <nav>
-      <button class="nav-button" data-md="myBlog.md">MyFirstBlog</button>
-      <button class="nav-button" data-md="Backend.md">Backend</button>
-      <button class="nav-button" data-md="Frontend.md">Frontend</button>
-      <button class="nav-button" data-md="Database.md">Database</button>
-    </nav>
-
-    <div id="content">请选择上方主题加载 Markdown 内容…</div>
+      <div id="content">请选择上方主题加载 Markdown 内容…</div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>

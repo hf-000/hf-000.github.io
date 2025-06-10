@@ -47,7 +47,7 @@ http {
 
     server {
         listen       80;
-        server_name  14.103.176.66;  # 替换为你的公网 IP 或域名
+        server_name  公网IP;  # 替换为你的公网 IP 或域名
 
         location / {
             root   /usr/share/nginx/html;
@@ -56,7 +56,7 @@ http {
         }
 
         location /api/ {
-            proxy_pass http://14.103.176.66:10000/api/;  # 替换为你的后端服务地址
+            proxy_pass http://公网IP:10000/api/;  # 替换为你的后端服务地址
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

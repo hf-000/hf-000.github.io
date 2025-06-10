@@ -6,6 +6,7 @@ $ gsql -d postgres -p 5432
 
 CREATE DATABASE mysql; //创建数据库
 \c mysql;  //切换数据库
+CREATE USER data_analyst WITH PASSWORD 'AnaLyz3r2025' //创建用户
 GRANT CONNECT ON DATABASE test TO myuser;//赋予用户连接数据库的权限
 ```
 
@@ -51,8 +52,7 @@ services:
       - "./data:/data"
     command:
       # 执行的命令
-      redis-server /usr/local/etc/redis/redis.conf --appendonly yes
-      
+      redis-server /usr/local/etc/redis/redis.conf --appendonly yes 
 ```
 
 
