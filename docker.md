@@ -17,3 +17,14 @@
       "https://mirror.iscas.ac.cn"]
   }
 ```
+#### 使用链路追踪jarger，使用docker一键启动
+```
+o@itachi:~$ docker run --rm --name jaeger \
+  -e COLLECTOR_OTLP_ENABLED=true \
+  -p 16686:16686 \
+  -p 4317:4317 \
+  -p 4318:4318 \
+  -p 5778:5778 \
+  -p 9411:9411 \
+  jaegertracing/jaeger:2.7.0
+```
