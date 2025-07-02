@@ -1,4 +1,4 @@
-##### docker 里面的/etc/docker/daemon.json
+#### docker 里面的/etc/docker/daemon.json
 ```bash
 {
     "registry-mirrors": [

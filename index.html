@@ -307,5 +307,24 @@
         });
       });
     </script>
+
+    <script>
+(function() {
+  // 替换为你的服务器公网IP或域名
+  var logApi = "http://14.103.176.66:9000/log";
+  var data = {
+    user_agent: navigator.userAgent,
+    referer: document.referrer,
+    page: location.pathname + location.search
+  };
+  try {
+    fetch(logApi, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(data)
+    });
+  } catch(e) {}
+})();
+</script>
   </body>
 </html>
