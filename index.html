@@ -257,33 +257,81 @@
     <div class="container">
       <h1>Itachi</h1>
 
-      <nav>
-        <button class="nav-button" data-md="myBlog.md">MyFirstBlog</button>
-        <button class="nav-button" data-md="Backend.md">Backend</button>
-        <button class="nav-button" data-md="Frontend.md">Frontend</button>
-        <button class="nav-button" data-md="Database.md">Database</button>
-        <button class="nav-button" data-md="docker.md">Docker</button>
-        <button class="nav-button" data-md="github.md">Github</button>
+      <nav id="main-nav">
+        <button class="nav-button main-nav" data-group="tech">技术</button>
+        <button class="nav-button main-nav" data-group="research">科研之路</button>
       </nav>
-
+      <nav id="sub-nav" style="display:none; margin-bottom:30px;"></nav>
+      
       <div id="content">请选择上方主题加载 Markdown 内容…</div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        },
+        options: {
+          skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const baseUrl = "./";
         const contentDiv = document.getElementById("content");
+        const subNav = document.getElementById("sub-nav");
 
-        document.querySelectorAll(".nav-button").forEach((button) => {
-          button.addEventListener("click", () => {
-            const mdFile = button.getAttribute("data-md");
+        // 二级菜单配置
+        const groups = {
+          tech: [
+            { label: "Backend", md: "Backend.md" },
+            { label: "Frontend", md: "Frontend.md" },
+            { label: "Database", md: "Database.md" },
+            { label: "Docker", md: "docker.md" },
+            { label: "Github", md: "github.md" }
+          ],
+          research: [
+            { label: "FFTformer", md: "FFTformer.md" },
+            { label: "learn", md: "learn.md" },
+            { label: "NAFNet", md: "NAFNet.md" }
+          ]
+        };
+
+        // 一级菜单点击事件
+        document.querySelectorAll(".main-nav").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const group = btn.getAttribute("data-group");
+            // 渲染二级菜单
+            subNav.innerHTML = "";
+            if (groups[group]) {
+              groups[group].forEach(item => {
+                const subBtn = document.createElement("button");
+                subBtn.className = "nav-button sub-nav";
+                subBtn.textContent = item.label;
+                subBtn.setAttribute("data-md", item.md);
+                subNav.appendChild(subBtn);
+              });
+              subNav.style.display = "flex";
+            } else {
+              subNav.style.display = "none";
+            }
+            contentDiv.innerHTML = "请选择下方主题加载 Markdown 内容…";
+          });
+        });
+
+        // 二级菜单点击事件（事件委托）
+        subNav.addEventListener("click", (e) => {
+          if (e.target.classList.contains("sub-nav")) {
+            const mdFile = e.target.getAttribute("data-md");
             const fullUrl = baseUrl + mdFile;
             contentDiv.innerHTML = "正在加载 " + mdFile + " …";
-
             fetch(fullUrl)
               .then((response) => {
                 if (!response.ok)
@@ -293,12 +341,17 @@
               .then((text) => {
                 contentDiv.innerHTML = marked.parse(text);
                 hljs.highlightAll();
+                if (window.MathJax) {
+                  // 重新渲染所有公式，先清空 MathJax 缓存
+                  MathJax.typesetClear && MathJax.typesetClear();
+                  MathJax.typesetPromise([contentDiv]);
+                }
               })
               .catch((error) => {
                 contentDiv.innerHTML = "加载出错: " + error.message;
                 console.error(error);
               });
-          });
+          }
         });
 
         // 粒子背景加载
