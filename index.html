@@ -27,6 +27,8 @@
     />
 
     <style>
+      @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         margin: 0;
@@ -68,16 +70,16 @@
 
       h1 {
         text-align: center;
-        font-weight: 900;
-        margin: 40px 0;
-        font-size: 4rem;
-        text-transform: uppercase;
-        letter-spacing: 4px;
-        background: linear-gradient(135deg, #ff4e50, #f9d423);
+        font-weight: 700;
+        margin: 32px 0 18px 0;
+        font-size: 2.2rem;
+        letter-spacing: 0.15em;
+        font-family: 'Montserrat', 'Segoe UI', 'Arial', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        background: linear-gradient(135deg, #ff4e50, #f9d423 80%);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
-        text-shadow: 2px 2px 20px rgba(249, 212, 35, 0.2);
+        text-shadow: 1px 1px 10px rgba(249, 212, 35, 0.18);
         animation: glow 2s ease-in-out infinite alternate;
       }
 
@@ -90,17 +92,14 @@
         }
       }
 
-      nav {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 15px;
-        margin: 30px 0 50px;
-        padding: 0 20px;
+      .button-group {
+        margin-top: 120px;
+        text-align: center;
+        z-index: 2;
+        position: relative;
       }
 
-      .nav-button {
-        position: relative;
+      .btn {
         background: rgba(255, 255, 255, 0.1);
         border: 2px solid rgba(255, 255, 255, 0.1);
         border-radius: 12px;
@@ -113,9 +112,10 @@
         transition: all 0.3s ease;
         backdrop-filter: blur(10px);
         overflow: hidden;
+        margin: 0 10px;
       }
 
-      .nav-button::before {
+      .btn::before {
         content: '';
         position: absolute;
         top: 0;
@@ -131,18 +131,18 @@
         transition: 0.5s;
       }
 
-      .nav-button:hover {
+      .btn:hover {
         transform: translateY(-3px);
         background: rgba(255, 255, 255, 0.15);
         border-color: rgba(255, 255, 255, 0.3);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
       }
 
-      .nav-button:hover::before {
+      .btn:hover::before {
         left: 100%;
       }
 
-      #content {
+      #md-content {
         max-width: 1000px;
         margin: 0 auto;
         background: rgba(20, 20, 20, 0.8);
@@ -156,11 +156,11 @@
         line-height: 1.8;
         transition: all 0.3s ease;
         opacity: 0.8;
+        display: none;
       }
 
-      #content:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+      #md-content.show {
+        display: block;
       }
 
       pre {
@@ -254,116 +254,33 @@
   </head>
   <body>
     <div id="particles-js"></div>
-    <div class="container">
-      <h1>Itachi</h1>
-
-      <nav id="main-nav">
-        <button class="nav-button main-nav" data-group="tech">技术</button>
-        <button class="nav-button main-nav" data-group="research">科研之路</button>
-      </nav>
-      <nav id="sub-nav" style="display:none; margin-bottom:30px;"></nav>
-      
-      <div id="content">请选择上方主题加载 Markdown 内容…</div>
+    <div class="container" style="background:none;box-shadow:none;">
+      <h1>Itachi的学习之路</h1>
+      <div class="button-group" style="margin-top:40px;text-align:center;z-index:2;position:relative;">
+        <button class="btn" onclick="loadMd('science.md')">Science</button>
+        <button class="btn" onclick="loadMd('technology.md')">Technology</button>
+      </div>
+      <div id="md-content"></div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script>
+      function loadMd(mdFile) {
+        fetch(mdFile)
+          .then(res => res.text())
+          .then(md => {
+            document.getElementById('md-content').innerHTML = marked.parse(md);
+            document.getElementById('md-content').classList.add('show');
+          });
+      }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
     <script>
-      window.MathJax = {
-        tex: {
-          inlineMath: [['$', '$'], ['\\(', '\\)']],
-          displayMath: [['$$', '$$'], ['\\[', '\\]']]
-        },
-        options: {
-          skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      };
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const baseUrl = "./";
-        const contentDiv = document.getElementById("content");
-        const subNav = document.getElementById("sub-nav");
-
-        // 二级菜单配置
-        const groups = {
-          tech: [
-            { label: "Backend", md: "Backend.md" },
-            { label: "Frontend", md: "Frontend.md" },
-            { label: "Database", md: "Database.md" },
-            { label: "Docker", md: "docker.md" },
-            { label: "Github", md: "github.md" }
-          ],
-          research: [
-            { label: "FFTformer", md: "FFTformer.md" },
-            { label: "learn", md: "learn.md" },
-            { label: "NAFNet", md: "NAFNet.md" }
-          ]
-        };
-
-        // 一级菜单点击事件
-        document.querySelectorAll(".main-nav").forEach((btn) => {
-          btn.addEventListener("click", () => {
-            const group = btn.getAttribute("data-group");
-            // 渲染二级菜单
-            subNav.innerHTML = "";
-            if (groups[group]) {
-              groups[group].forEach(item => {
-                const subBtn = document.createElement("button");
-                subBtn.className = "nav-button sub-nav";
-                subBtn.textContent = item.label;
-                subBtn.setAttribute("data-md", item.md);
-                subNav.appendChild(subBtn);
-              });
-              subNav.style.display = "flex";
-            } else {
-              subNav.style.display = "none";
-            }
-            contentDiv.innerHTML = "请选择下方主题加载 Markdown 内容…";
-          });
-        });
-
-        // 二级菜单点击事件（事件委托）
-        subNav.addEventListener("click", (e) => {
-          if (e.target.classList.contains("sub-nav")) {
-            const mdFile = e.target.getAttribute("data-md");
-            const fullUrl = baseUrl + mdFile;
-            contentDiv.innerHTML = "正在加载 " + mdFile + " …";
-            fetch(fullUrl)
-              .then((response) => {
-                if (!response.ok)
-                  throw new Error("加载失败: " + response.status);
-                return response.text();
-              })
-              .then((text) => {
-                contentDiv.innerHTML = marked.parse(text);
-                hljs.highlightAll();
-                if (window.MathJax) {
-                  // 重新渲染所有公式，先清空 MathJax 缓存
-                  MathJax.typesetClear && MathJax.typesetClear();
-                  MathJax.typesetPromise([contentDiv]);
-                }
-              })
-              .catch((error) => {
-                contentDiv.innerHTML = "加载出错: " + error.message;
-                console.error(error);
-              });
-          }
-        });
-
-        // 粒子背景加载
-        particlesJS.load("particles-js", "particles.json", function () {
-          console.log("Particles.js loaded.");
-        });
+      particlesJS.load("particles-js", "particles.json", function () {
+        console.log("Particles.js loaded.");
       });
     </script>
-
     <script>
 (function() {
-  // 替换为你的服务器公网IP或域名
   var logApi = "http://14.103.176.66:9000/log";
   var data = {
     user_agent: navigator.userAgent,
