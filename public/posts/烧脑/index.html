@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="content-type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title itemprop="name">烧脑 | My New Hugo Site</title>
+<meta property="og:title" content="烧脑 | My New Hugo Site" />
+<meta name="twitter:title" content="烧脑 | My New Hugo Site" />
+<meta itemprop="name" content="烧脑 | My New Hugo Site" />
+<meta name="application-name" content="烧脑 | My New Hugo Site" />
+<meta property="og:site_name" content="" />
+
+<meta name="description" content="">
+<meta itemprop="description" content="" />
+<meta property="og:description" content="" />
+<meta name="twitter:description" content="" />
+
+<meta property="og:locale" content="en-us" />
+<meta name="language" content="en-us" />
+
+  <link rel="alternate" hreflang="en" href="http://localhost:1313/posts/%E7%83%A7%E8%84%91/" title="" />
+
+
+
+
+
+    
+    
+    
+
+    <meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content=2026-01-08T22:18:56&#43;0800 />
+    <meta property="article:published_time" content=2026-01-08T22:18:56&#43;0800 />
+    <meta property="og:url" content="http://localhost:1313/posts/%E7%83%A7%E8%84%91/" />
+
+    
+    <meta property="og:article:author" content="" />
+    <meta property="article:author" content="" />
+    <meta name="author" content="" />
+    
+    
+
+    
+
+    <script defer type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "Article",
+        "headline": "烧脑",
+        "author": {
+        "@type": "Person",
+        "name": ""
+        },
+        "datePublished": "2026-01-08",
+        "description": "",
+        "wordCount":  494 ,
+        "mainEntityOfPage": "True",
+        "dateModified": "2026-01-08",
+        "image": {
+        "@type": "imageObject",
+        "url": ""
+        },
+        "publisher": {
+        "@type": "Organization",
+        "name": "My New Hugo Site"
+        }
+    }
+    </script>
+
+
+<meta name="generator" content="Hugo 0.154.2">
+
+    
+    <meta property="og:url" content="http://localhost:1313/posts/%E7%83%A7%E8%84%91/">
+  <meta property="og:site_name" content="My New Hugo Site">
+  <meta property="og:title" content="烧脑">
+  <meta property="og:description" content="位运算&#43;dp&#43;数学集合 n个数分最少的互质组 注意集合子集写法 基本原理: 对每一种数字排列的组合进行一下判断：
+列举此组合的所有子集，如果这个子集是互质的，那这个组合的次数就是这个组合删除这个子集的集合的次数加上1，然后对所有的子集重复操作取最小值即时最终答案 void solve() { int n; cin &gt;&gt; n; vector&lt;int&gt; a(n); for (int i = 0; i &lt; n; i&#43;&#43;) { cin &gt;&gt; a[i]; } // 构造二维数组判断每两个数之间是否是互质的 vector&lt;vector&lt;bool&gt;&gt; p(n, vector&lt;bool&gt;(n, false)); for (int i = 0; i &lt; n; i&#43;&#43;) { for (int j = i &#43; 1; j &lt; n; j&#43;&#43;) { if (gcd(a[i], a[j]) &gt; 1) { p[i][j] = p[j][i] = true; } } } // 对于n个数中选取所有集合，判断这个集合是否是两两互质的，存储在q数组中 int full = 1 &lt;&lt; n; vector&lt;char&gt; q(full, 0); for (int mask = 0; mask &lt; full; mask&#43;&#43;) { bool ok = true; for (int i = 0; i &lt; n; i&#43;&#43;) { if (!((1 &lt;&lt; i) &amp; mask)) continue; for (int j = i &#43; 1; j &lt; n; j&#43;&#43;) { if (!((1 &lt;&lt; j) &amp; mask)) continue; if (p[i][j]) { ok = false; break; } } q[mask] = ok ? 1 : 0; } } vector&lt;int&gt; dp(full, 1e9); // dp[i]数组表示覆盖i个数所需要的最少数量 dp[0] = 0; for (int mask = 1; mask &lt; full; mask&#43;&#43;) { // 枚举每个mask的子集 for (int sub = mask; sub; sub = (sub - 1) &amp; mask) { if (q[sub]) { dp[mask] = min(dp[mask], dp[mask ^ sub] &#43; 1); } } } cout &lt;&lt; dp[full - 1] &lt;&lt; endl; return; } 位运算&#43;图基础 求树中任意两点之间的路径长度（具有记忆性） const ll INF = (1ll &lt;&lt; 60); void solve() { int n, Q; cin &gt;&gt; n &gt;&gt; Q; vector&lt;vector&lt;int&gt;&gt; g(n &#43; 1); // 建立邻接矩阵表 for (int i = 1; i &lt; n; i&#43;&#43;) { int a, b; cin &gt;&gt; a &gt;&gt; b; g[a].push_back(b); g[b].push_back(a); } int LOG = 1; while ((1 &lt;&lt; LOG) &lt;= n) &#43;&#43;LOG; vector&lt;int&gt; parent(n &#43; 1, 0), depth(n &#43; 1, 0); vector&lt;vector&lt;int&gt;&gt; up(n &#43; 1, vector&lt;int&gt;(LOG, 0)); // up[v][k]表示节点v跳2的k次方层的祖先 queue&lt;int&gt; q; q.push(1); // 1作为根节点，其他节点也可以 parent[1] = 0; depth[1] = 0; up[1][0] = 0; while (!q.empty()) { int x = q.front(); q.pop(); // 取出队头元素 for (int u : g[x]) { // 遍历当前节点的所有邻接点 if (u == parent[x]) { // 如果是自己的父节点则跳过 continue; } parent[u] = x; // 将剩余节点的父节点设置为当前取出的节点 depth[u] = depth[x] &#43; 1; // 深度加一 up[u][0] = x; // 记录父节点 q.push(u); // 队列添加元素 } } // 构造binary lifting表 for (int i = 1; i &lt; LOG; i&#43;&#43;) { for (int j = 1; j &lt;= n; j&#43;&#43;) { up[j][i] = up[up[j][i - 1]][i - 1]; } } // lamdba函数求LCA auto lca = [&amp;](int a, int b) { if (depth[a] &lt; depth[b]) swap(a, b); int diff = depth[a] - depth[b]; for (int i = 0; i &lt; LOG; i&#43;&#43;) { // 将a和b拉到同一深度 if (diff &amp; (1 &lt;&lt; LOG)) { a = up[a][i]; } } if (a == b) { return a; } for (int k = LOG - 1; k &gt;= 0; k--) { if (up[a][k] != up[b][k]) { a = up[a][k]; b = up[b][k]; } } return up[a][0]; }; while (Q--) { int c, d; cin &gt;&gt; c &gt;&gt; d; int L = lca(c, d); int dist = depth[c] &#43; depth[d] - 2 * depth[L]; cout &lt;&lt; dist &lt;&lt; endl; } return; }">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-08T22:18:56+08:00">
+    <meta property="article:modified_time" content="2026-01-08T22:18:56+08:00">
+
+
+    
+    
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="烧脑">
+  <meta name="twitter:description" content="位运算&#43;dp&#43;数学集合 n个数分最少的互质组 注意集合子集写法 基本原理: 对每一种数字排列的组合进行一下判断：
+列举此组合的所有子集，如果这个子集是互质的，那这个组合的次数就是这个组合删除这个子集的集合的次数加上1，然后对所有的子集重复操作取最小值即时最终答案 void solve() { int n; cin &gt;&gt; n; vector&lt;int&gt; a(n); for (int i = 0; i &lt; n; i&#43;&#43;) { cin &gt;&gt; a[i]; } // 构造二维数组判断每两个数之间是否是互质的 vector&lt;vector&lt;bool&gt;&gt; p(n, vector&lt;bool&gt;(n, false)); for (int i = 0; i &lt; n; i&#43;&#43;) { for (int j = i &#43; 1; j &lt; n; j&#43;&#43;) { if (gcd(a[i], a[j]) &gt; 1) { p[i][j] = p[j][i] = true; } } } // 对于n个数中选取所有集合，判断这个集合是否是两两互质的，存储在q数组中 int full = 1 &lt;&lt; n; vector&lt;char&gt; q(full, 0); for (int mask = 0; mask &lt; full; mask&#43;&#43;) { bool ok = true; for (int i = 0; i &lt; n; i&#43;&#43;) { if (!((1 &lt;&lt; i) &amp; mask)) continue; for (int j = i &#43; 1; j &lt; n; j&#43;&#43;) { if (!((1 &lt;&lt; j) &amp; mask)) continue; if (p[i][j]) { ok = false; break; } } q[mask] = ok ? 1 : 0; } } vector&lt;int&gt; dp(full, 1e9); // dp[i]数组表示覆盖i个数所需要的最少数量 dp[0] = 0; for (int mask = 1; mask &lt; full; mask&#43;&#43;) { // 枚举每个mask的子集 for (int sub = mask; sub; sub = (sub - 1) &amp; mask) { if (q[sub]) { dp[mask] = min(dp[mask], dp[mask ^ sub] &#43; 1); } } } cout &lt;&lt; dp[full - 1] &lt;&lt; endl; return; } 位运算&#43;图基础 求树中任意两点之间的路径长度（具有记忆性） const ll INF = (1ll &lt;&lt; 60); void solve() { int n, Q; cin &gt;&gt; n &gt;&gt; Q; vector&lt;vector&lt;int&gt;&gt; g(n &#43; 1); // 建立邻接矩阵表 for (int i = 1; i &lt; n; i&#43;&#43;) { int a, b; cin &gt;&gt; a &gt;&gt; b; g[a].push_back(b); g[b].push_back(a); } int LOG = 1; while ((1 &lt;&lt; LOG) &lt;= n) &#43;&#43;LOG; vector&lt;int&gt; parent(n &#43; 1, 0), depth(n &#43; 1, 0); vector&lt;vector&lt;int&gt;&gt; up(n &#43; 1, vector&lt;int&gt;(LOG, 0)); // up[v][k]表示节点v跳2的k次方层的祖先 queue&lt;int&gt; q; q.push(1); // 1作为根节点，其他节点也可以 parent[1] = 0; depth[1] = 0; up[1][0] = 0; while (!q.empty()) { int x = q.front(); q.pop(); // 取出队头元素 for (int u : g[x]) { // 遍历当前节点的所有邻接点 if (u == parent[x]) { // 如果是自己的父节点则跳过 continue; } parent[u] = x; // 将剩余节点的父节点设置为当前取出的节点 depth[u] = depth[x] &#43; 1; // 深度加一 up[u][0] = x; // 记录父节点 q.push(u); // 队列添加元素 } } // 构造binary lifting表 for (int i = 1; i &lt; LOG; i&#43;&#43;) { for (int j = 1; j &lt;= n; j&#43;&#43;) { up[j][i] = up[up[j][i - 1]][i - 1]; } } // lamdba函数求LCA auto lca = [&amp;](int a, int b) { if (depth[a] &lt; depth[b]) swap(a, b); int diff = depth[a] - depth[b]; for (int i = 0; i &lt; LOG; i&#43;&#43;) { // 将a和b拉到同一深度 if (diff &amp; (1 &lt;&lt; LOG)) { a = up[a][i]; } } if (a == b) { return a; } for (int k = LOG - 1; k &gt;= 0; k--) { if (up[a][k] != up[b][k]) { a = up[a][k]; b = up[b][k]; } } return up[a][0]; }; while (Q--) { int c, d; cin &gt;&gt; c &gt;&gt; d; int L = lca(c, d); int dist = depth[c] &#43; depth[d] - 2 * depth[L]; cout &lt;&lt; dist &lt;&lt; endl; } return; }">
+
+
+    
+
+    <link rel="canonical" href="http://localhost:1313/posts/%E7%83%A7%E8%84%91/">
+    <link href="/style.min.e390ba7da26222f4dc42a349955d76dbbe44e5ce2535a43de5a70633a0a9ec3c.css" rel="stylesheet">
+    <link href="/code-highlight.min.706d31975fec544a864cb7f0d847a73ea55ca1df91bf495fd12a177138d807cf.css" rel="stylesheet">
+
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+
+<link rel="manifest" href="http://localhost:1313/site.webmanifest">
+
+<meta name="msapplication-config" content="/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#2d89ef">
+<meta name="theme-color" content="#434648">
+    <meta name="color-scheme" content="light dark">
+
+    
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+
+    
+    
+</head>
+<body data-theme = "" class="notransition">
+
+<script src="/js/theme.js"></script>
+
+<div class="navbar" role="navigation">
+    <nav class="menu" aria-label="Main Navigation">
+        <a href="http://localhost:1313/" class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" 
+viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+stroke-linejoin="round" class="feather feather-home">
+<title>Home</title>
+<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+<polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg>
+        </a>
+        <input type="checkbox" id="menu-trigger" class="menu-trigger" />
+        <label for="menu-trigger">
+            <span class="menu-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" stroke="currentColor" fill="none" viewBox="0 0 14 14"><title>Menu</title><path stroke-linecap="round" stroke-linejoin="round" d="M10.595 7L3.40726 7"></path><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 3.51488L3.49301 3.51488"></path><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 10.4851H3.49301"></path><path stroke-linecap="round" stroke-linejoin="round" d="M0.5 12.5V1.5C0.5 0.947715 0.947715 0.5 1.5 0.5H12.5C13.0523 0.5 13.5 0.947715 13.5 1.5V12.5C13.5 13.0523 13.0523 13.5 12.5 13.5H1.5C0.947715 13.5 0.5 13.0523 0.5 12.5Z"></path></svg>
+            </span>
+        </label>
+
+        <div class="trigger">
+            <ul class="trigger-container">
+                
+                
+                <li>
+                    <a class="menu-link " href="/">
+                        主页
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link " href="/about/">
+                        关于我
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link " href="/categories/">
+                        分类
+                    </a>
+                    
+                </li>
+                
+                <li class="menu-separator">
+                    <span>|</span>
+                </li>
+                
+                
+            </ul>
+            <a id="mode" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mode-sunny" width="21" height="21" viewBox="0 0 14 14" stroke-width="1">
+<title>LIGHT</title><g><circle cx="7" cy="7" r="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></circle><line x1="7" y1="0.5" x2="7" y2="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="2.4" x2="3.82" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="0.5" y1="7" x2="2.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="11.6" x2="3.82" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="7" y1="13.5" x2="7" y2="11.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="11.6" x2="10.18" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="13.5" y1="7" x2="11.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="2.4" x2="10.18" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line></g></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="mode-moon" width="21" height="21" viewBox="0 0 14 14" stroke-width="1">
+<title>DARK</title><g><circle cx="7" cy="7" r="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></circle><line x1="7" y1="0.5" x2="7" y2="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="2.4" x2="3.82" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="0.5" y1="7" x2="2.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="11.6" x2="3.82" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="7" y1="13.5" x2="7" y2="11.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="11.6" x2="10.18" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="13.5" y1="7" x2="11.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="2.4" x2="10.18" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line></g></svg>
+            </a>
+        </div>
+    </nav>
+</div>
+
+<div class="wrapper post">
+    <main class="page-content" aria-label="Content">
+        <article>
+            <header class="header">
+                <h1 class="header-title">烧脑</h1>
+                
+                
+                
+                <div class="post-meta">
+                    <time datetime="2026-01-08T22:18:56&#43;08:00" itemprop="datePublished"> Jan 8, 2026 </time>
+                </div>
+                
+            </header>
+            
+            <div class="page-content">
+                <h2 id="位运算dp数学集合">位运算+dp+数学集合</h2>
+<h3 id="n个数分最少的互质组"><a href="https://www.luogu.com.cn/problem/U207723">n个数分最少的互质组</a></h3>
+<h4 id="注意集合子集写法">注意集合子集写法</h4>
+<h5 id="基本原理">基本原理:</h5>
+<p>对每一种数字排列的组合进行一下判断：</p>
+<ul>
+<li>列举此组合的所有子集，如果这个子集是互质的，那这个组合的次数就是这个组合删除这个子集的集合的次数加上1，然后对所有的子集重复操作取最小值即时最终答案</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> n;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> a(n);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> a[i];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 构造二维数组判断每两个数之间是否是互质的
+</span></span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;&gt;</span> p(n, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span>(n, false));
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;</span> n; j<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (gcd(a[i], a[j]) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                p[i][j] <span style="color:#f92672">=</span> p[j][i] <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 对于n个数中选取所有集合，判断这个集合是否是两两互质的，存储在q数组中
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> full <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> n;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;</span> q(full, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> mask <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; mask <span style="color:#f92672">&lt;</span> full; mask<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">bool</span> ok <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>((<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> i) <span style="color:#f92672">&amp;</span> mask))
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;</span> n; j<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>((<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> j) <span style="color:#f92672">&amp;</span> mask))
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (p[i][j])
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                    ok <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            q[mask] <span style="color:#f92672">=</span> ok <span style="color:#f92672">?</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> dp(full, <span style="color:#ae81ff">1e9</span>); <span style="color:#75715e">// dp[i]数组表示覆盖i个数所需要的最少数量
+</span></span></span><span style="display:flex;"><span>    dp[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> mask <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; mask <span style="color:#f92672">&lt;</span> full; mask<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 枚举每个mask的子集
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> sub <span style="color:#f92672">=</span> mask; sub; sub <span style="color:#f92672">=</span> (sub <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">&amp;</span> mask)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (q[sub])
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                dp[mask] <span style="color:#f92672">=</span> min(dp[mask], dp[mask <span style="color:#f92672">^</span> sub] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> dp[full <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="位运算图基础">位运算+图基础</h2>
+<h4 id="求树中任意两点之间的路径长度具有记忆性"><a href="https://atcoder.jp/contests/abc376/tasks/abc376_d?lang=en">求树中任意两点之间的路径长度（具有记忆性）</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> ll INF <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1ll</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">60</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> n, Q;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> Q;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> g(n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>); <span style="color:#75715e">// 建立邻接矩阵表
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> a, b;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> a <span style="color:#f92672">&gt;&gt;</span> b;
+</span></span><span style="display:flex;"><span>        g[a].push_back(b);
+</span></span><span style="display:flex;"><span>        g[b].push_back(a);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> LOG <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> ((<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> LOG) <span style="color:#f92672">&lt;=</span> n)
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">++</span>LOG;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> parent(n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>), depth(n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> up(n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(LOG, <span style="color:#ae81ff">0</span>)); <span style="color:#75715e">// up[v][k]表示节点v跳2的k次方层的祖先
+</span></span></span><span style="display:flex;"><span>    queue<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> q;
+</span></span><span style="display:flex;"><span>    q.push(<span style="color:#ae81ff">1</span>); <span style="color:#75715e">// 1作为根节点，其他节点也可以
+</span></span></span><span style="display:flex;"><span>    parent[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    depth[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    up[<span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>q.empty())
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> q.front();
+</span></span><span style="display:flex;"><span>        q.pop(); <span style="color:#75715e">// 取出队头元素
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> u : g[x])
+</span></span><span style="display:flex;"><span>        { <span style="color:#75715e">// 遍历当前节点的所有邻接点
+</span></span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (u <span style="color:#f92672">==</span> parent[x])
+</span></span><span style="display:flex;"><span>            { <span style="color:#75715e">// 如果是自己的父节点则跳过
+</span></span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            parent[u] <span style="color:#f92672">=</span> x;           <span style="color:#75715e">// 将剩余节点的父节点设置为当前取出的节点
+</span></span></span><span style="display:flex;"><span>            depth[u] <span style="color:#f92672">=</span> depth[x] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; <span style="color:#75715e">// 深度加一
+</span></span></span><span style="display:flex;"><span>            up[u][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> x;            <span style="color:#75715e">// 记录父节点
+</span></span></span><span style="display:flex;"><span>            q.push(u);               <span style="color:#75715e">// 队列添加元素
+</span></span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 构造binary lifting表
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> LOG; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> n; j<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            up[j][i] <span style="color:#f92672">=</span> up[up[j][i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]][i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// lamdba函数求LCA
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> lca <span style="color:#f92672">=</span> [<span style="color:#f92672">&amp;</span>](<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (depth[a] <span style="color:#f92672">&lt;</span> depth[b])
+</span></span><span style="display:flex;"><span>            swap(a, b);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> diff <span style="color:#f92672">=</span> depth[a] <span style="color:#f92672">-</span> depth[b];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> LOG; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>        { <span style="color:#75715e">// 将a和b拉到同一深度
+</span></span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (diff <span style="color:#f92672">&amp;</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> LOG))
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                a <span style="color:#f92672">=</span> up[a][i];
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (a <span style="color:#f92672">==</span> b)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> a;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> LOG <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; k<span style="color:#f92672">--</span>)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (up[a][k] <span style="color:#f92672">!=</span> up[b][k])
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                a <span style="color:#f92672">=</span> up[a][k];
+</span></span><span style="display:flex;"><span>                b <span style="color:#f92672">=</span> up[b][k];
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> up[a][<span style="color:#ae81ff">0</span>];
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (Q<span style="color:#f92672">--</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> c, d;
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> c <span style="color:#f92672">&gt;&gt;</span> d;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> L <span style="color:#f92672">=</span> lca(c, d);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> dist <span style="color:#f92672">=</span> depth[c] <span style="color:#f92672">+</span> depth[d] <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> depth[L];
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> dist <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+            </div>
+        </article></main>
+</div>
+<footer class="footer">
+    <span class="footer_item"> </span>
+    &nbsp;
+
+    <div class="footer_social-icons">
+</div>
+    <small class="footer_copyright">
+        © 2026 .
+        Powered by <a href="https://github.com/hugo-sid/hugo-blog-awesome" target="_blank" rel="noopener">Hugo blog awesome</a>.
+    </small>
+</footer>
+
+
+
+
+
+
+
+    
+    <script async src="http://localhost:1313/js/main.js" ></script>
+
+    
+
+</body>
+</html>
