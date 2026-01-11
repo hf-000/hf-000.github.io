@@ -12,6 +12,21 @@ title = 'My New Hugo Site'
     avatar = "images/test.png"
     intro = "你的名字"
     description = "这是我的博客简介"
+  
+  # Giscus 评论配置
+  [params.giscus]
+    enable = true
+    repo = "hf-000/myblog"  # 改成你的 GitHub 仓库
+    repoId = ""  # GitHub repo ID
+    category = "General"
+    categoryId = ""  # GitHub category ID
+    mapping = "pathname"
+    strict = false
+    reactionsEnabled = true
+    emitMetadata = false
+    inputPosition = "bottom"
+    theme = "light"
+    lang = "zh-CN"
 
 [menu]
 

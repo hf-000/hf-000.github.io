@@ -1,0 +1,23 @@
+{{- if .Site.Config.Services.Disqus.Shortname -}}
+<hr style="margin-top: 40px; margin-bottom: 40px" />
+{{ template "_internal/disqus.html" . }} {{- else if .Site.Params.giscus.enable
+-}}
+<hr style="margin-top: 40px; margin-bottom: 40px" />
+<div id="giscus-container"></div>
+<script
+  src="https://giscus.app/client.js"
+  data-repo="{{ .Site.Params.giscus.repo }}"
+  data-repo-id="{{ .Site.Params.giscus.repoId }}"
+  data-category="{{ .Site.Params.giscus.category }}"
+  data-category-id="{{ .Site.Params.giscus.categoryId }}"
+  data-mapping="{{ .Site.Params.giscus.mapping }}"
+  data-strict="{{ .Site.Params.giscus.strict }}"
+  data-reactions-enabled="{{ .Site.Params.giscus.reactionsEnabled }}"
+  data-emit-metadata="{{ .Site.Params.giscus.emitMetadata }}"
+  data-input-position="{{ .Site.Params.giscus.inputPosition }}"
+  data-theme="{{ .Site.Params.giscus.theme }}"
+  data-lang="{{ .Site.Params.giscus.lang }}"
+  crossorigin="anonymous"
+  async
+></script>
+{{- end -}}
