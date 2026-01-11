@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>题目 on My New Hugo Site</title>
-    <link>https://hf-000.github.io/categories/%E9%A2%98%E7%9B%AE/</link>
+    <link>http://localhost:1313/categories/%E9%A2%98%E7%9B%AE/</link>
     <description>Recent content in 题目 on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 08 Jan 2026 22:18:56 +0800</lastBuildDate><atom:link href="https://hf-000.github.io/categories/%E9%A2%98%E7%9B%AE/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 08 Jan 2026 22:18:56 +0800</lastBuildDate><atom:link href="http://localhost:1313/categories/%E9%A2%98%E7%9B%AE/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>烧脑</title>
-      <link>https://hf-000.github.io/posts/%E7%83%A7%E8%84%91/</link>
+      <link>http://localhost:1313/posts/%E7%83%A7%E8%84%91/</link>
       <pubDate>Thu, 08 Jan 2026 22:18:56 +0800</pubDate>
       
-      <guid>https://hf-000.github.io/posts/%E7%83%A7%E8%84%91/</guid>
+      <guid>http://localhost:1313/posts/%E7%83%A7%E8%84%91/</guid>
       
       <description>&lt;h2 id=&#34;位运算dp数学集合&#34;&gt;位运算+dp+数学集合&lt;/h2&gt;
 &lt;h3 id=&#34;n个数分最少的互质组&#34;&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/U207723&#34;&gt;n个数分最少的互质组&lt;/a&gt;&lt;/h3&gt;

@@ -16,16 +16,16 @@ title = 'My New Hugo Site'
   # Giscus 评论配置
   [params.giscus]
     enable = true
-    repo = "hf-000/myblog"  # 改成你的 GitHub 仓库
-    repoId = ""  # GitHub repo ID
-    category = "General"
-    categoryId = ""  # GitHub category ID
+    repo = "hf-000/hf-000.github.io"
+    repoId = "R_kgDOQ2mDKQ"
+    category = "Announcements"
+    categoryId = "DIC_kwDOQ2mDKc4C00Bc"
     mapping = "pathname"
     strict = false
     reactionsEnabled = true
     emitMetadata = false
     inputPosition = "bottom"
-    theme = "light"
+    theme = "preferred_color_scheme"
     lang = "zh-CN"
 
 [menu]
