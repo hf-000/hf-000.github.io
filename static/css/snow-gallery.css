@@ -1,0 +1,18 @@
+/* Snow gallery styles: no gaps, responsive grid */
+.snow-gallery-container { margin: 0; padding: 0; }
+.snow-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-auto-rows: 180px;
+  gap: 0;
+}
+.snow-gallery a { display: block; width:100%; height:100%; }
+.snow-gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Make sure the gallery page content has no extra margins */
+.snow-gallery h1 { margin-top: 0.5rem; }

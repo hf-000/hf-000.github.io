@@ -44,3 +44,8 @@ title = 'My New Hugo Site'
     name = "分类"
     url = "/categories/"
     weight = 3
+  
+  [[menu.main]]
+    name = "我家雪儿"
+    url = "/snow/"
+    weight = 4

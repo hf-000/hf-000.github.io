@@ -1,0 +1,26 @@
+{{ define "main" }}
+<div class="wrapper">
+  {{ partial "bio" . }}
+  <main aria-label="Content">
+    <h1>{{ .Title }}</h1>
+    <div class="snow-gallery-container">
+      {{ $dir := "static/images/snow" }} {{ if not (fileExists $dir) }}
+      <p>
+        暂无图片目录。请将图片放到 <code>static/images/snow/</code> 目录下。
+      </p>
+      {{ else }} {{ $files := readDir $dir }} {{ if not (len $files) }}
+      <p>目录存在但没有图片。请把图片放入 <code>static/images/snow/</code>。</p>
+      {{ else }}
+      <div class="snow-gallery">
+        {{ range $i, $f := $files }} {{ if not $f.IsDir }} {{ $path := (printf
+        "/images/snow/%s" $f.Name) }}
+        <a href="{{ $path }}" target="_blank" rel="noopener">
+          <img src="{{ $path }}" alt="{{ $f.Name }}" />
+        </a>
+        {{ end }} {{ end }}
+      </div>
+      {{ end }} {{ end }}
+    </div>
+  </main>
+</div>
+{{ end }}
