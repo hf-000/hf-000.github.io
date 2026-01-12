@@ -46,6 +46,6 @@ title = 'My New Hugo Site'
     weight = 3
   
   [[menu.main]]
-    name = "我家雪儿"
+    name = "snow"
     url = "/snow/"
     weight = 4

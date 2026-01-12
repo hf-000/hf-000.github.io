@@ -1,26 +1,72 @@
-{{ define "main" }}
-<div class="wrapper">
-  {{ partial "bio" . }}
-  <main aria-label="Content">
-    <h1>{{ .Title }}</h1>
-    <div class="snow-gallery-container">
-      {{ $dir := "static/images/snow" }} {{ if not (fileExists $dir) }}
-      <p>
-        暂无图片目录。请将图片放到 <code>static/images/snow/</code> 目录下。
-      </p>
-      {{ else }} {{ $files := readDir $dir }} {{ if not (len $files) }}
-      <p>目录存在但没有图片。请把图片放入 <code>static/images/snow/</code>。</p>
-      {{ else }}
-      <div class="snow-gallery">
-        {{ range $i, $f := $files }} {{ if not $f.IsDir }} {{ $path := (printf
-        "/images/snow/%s" $f.Name) }}
-        <a href="{{ $path }}" target="_blank" rel="noopener">
-          <img src="{{ $path }}" alt="{{ $f.Name }}" />
-        </a>
-        {{ end }} {{ end }}
-      </div>
-      {{ end }} {{ end }}
-    </div>
-  </main>
-</div>
-{{ end }}
+<!DOCTYPE html>
+{{- $defaultColor := .Site.Params.defaultColor | default "auto" -}} {{- if eq
+$defaultColor "dark" -}}
+<html lang="{{ .Site.LanguageCode }}" class="dark">
+  {{- else if eq $defaultColor "light" -}}
+  <html lang="{{ .Site.LanguageCode }}" class="light">
+    {{- else -}}
+    <html lang="{{ .Site.LanguageCode }}">
+      {{- end -}} {{- partial "head.html" . -}}
+
+      <body data-theme="{{ $defaultColor }}" class="notransition">
+        {{- partial "scriptsBodyStart.html" . -}} {{- partial "header.html" .
+        -}}
+
+        <div class="wrapper">
+          {{ partial "bio" . }}
+          <main aria-label="Content">
+            <h1>{{ .Title }}</h1>
+            <div class="snow-gallery-container">
+              {{ $dir := "static/images/snow" }} {{ if not (fileExists $dir) }}
+              <p>
+                暂无图片目录。请将图片放到
+                <code>static/images/snow/</code> 目录下。
+              </p>
+              {{ else }} {{ $files := readDir $dir }} {{ if not (len $files) }}
+              <p>
+                目录存在但没有图片。请把图片放入
+                <code>static/images/snow/</code>。
+              </p>
+              {{ else }}
+              <div class="snow-gallery">
+                {{ range $i, $f := $files }} {{ if not $f.IsDir }} {{ $path :=
+                (printf "/images/snow/%s" $f.Name) }}
+                <a
+                  href="{{ $path }}"
+                  class="glightbox"
+                  data-gallery="snow"
+                  data-type="image"
+                  aria-label="查看大图"
+                >
+                  <img src="{{ $path }}" alt="{{ $f.Name }}" />
+                  <div class="snow-overlay">
+                    <span class="caption">{{ $f.Name }}</span>
+                  </div>
+                </a>
+                {{ end }} {{ end }}
+              </div>
+              {{ end }} {{ end }}
+            </div>
+          </main>
+        </div>
+
+        {{- partial "footer.html" . -}} {{- partial "scriptsBodyEnd.html" . -}}
+
+        <!-- GLightbox JS loaded only for this page -->
+        <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+        <script src="/js/snow-gallery.js"></script>
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            if (typeof GLightbox !== "undefined") {
+              GLightbox({
+                selector: ".glightbox",
+                touchNavigation: true,
+                loop: true,
+              });
+            }
+          });
+        </script>
+      </body>
+    </html>
+  </html>
+</html>
