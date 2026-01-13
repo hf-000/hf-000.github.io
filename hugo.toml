@@ -1,6 +1,6 @@
 baseURL = 'https://hf-000.github.io/'
-languageCode = 'en-us'
-title = 'Itachi的博客'
+languageCode = 'zh-cn'
+title = "Snochi'blog"
 
 [module]
   [[module.imports]]
@@ -10,8 +10,8 @@ title = 'Itachi的博客'
   # 作者信息配置
   [params.author]
     avatar = "images/test.png"
-    intro = "你的名字"
-    description = "这是我的博客简介"
+    intro = "Snochi"
+    description = "嘿嘿，喜欢一个人哦"
   
   # Giscus 评论配置
   [params.giscus]
@@ -30,22 +30,19 @@ title = 'Itachi的博客'
 
 [menu]
 
+
+
   [[menu.main]]
-    name = "主页"
-    url = "/"
+    name = "about"
+    url = "/about/"
     weight = 1
 
   [[menu.main]]
-    name = "关于我"
-    url = "/about/"
-    weight = 2
-
-  [[menu.main]]
-    name = "分类"
+    name = "categories"
     url = "/categories/"
-    weight = 3
+    weight = 2
   
   [[menu.main]]
     name = "snow"
     url = "/snow/"
-    weight = 4
+    weight = 3

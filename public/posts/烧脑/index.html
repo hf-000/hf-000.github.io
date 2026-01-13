@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<html lang="zh-cn"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="content-type" content="text/html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title itemprop="name">烧脑 | Itachi的博客</title>
-<meta property="og:title" content="烧脑 | Itachi的博客" />
-<meta name="twitter:title" content="烧脑 | Itachi的博客" />
-<meta itemprop="name" content="烧脑 | Itachi的博客" />
-<meta name="application-name" content="烧脑 | Itachi的博客" />
+<title itemprop="name">烧脑 | Snochi&#39;blog</title>
+<meta property="og:title" content="烧脑 | Snochi&#39;blog" />
+<meta name="twitter:title" content="烧脑 | Snochi&#39;blog" />
+<meta itemprop="name" content="烧脑 | Snochi&#39;blog" />
+<meta name="application-name" content="烧脑 | Snochi&#39;blog" />
 <meta property="og:site_name" content="" />
 
 <meta name="description" content="">
@@ -15,8 +15,8 @@
 <meta property="og:description" content="" />
 <meta name="twitter:description" content="" />
 
-<meta property="og:locale" content="en-us" />
-<meta name="language" content="en-us" />
+<meta property="og:locale" content="zh-cn" />
+<meta name="language" content="zh-cn" />
 
   <link rel="alternate" hreflang="en" href="http://localhost:1313/posts/%E7%83%A7%E8%84%91/" title="" />
 
@@ -62,7 +62,7 @@
         },
         "publisher": {
         "@type": "Organization",
-        "name": "Itachi的博客"
+        "name": "Snochi\u0027blog"
         }
     }
     </script>
@@ -72,11 +72,11 @@
 
     
     <meta property="og:url" content="http://localhost:1313/posts/%E7%83%A7%E8%84%91/">
-  <meta property="og:site_name" content="Itachi的博客">
+  <meta property="og:site_name" content="Snochi&#39;blog">
   <meta property="og:title" content="烧脑">
   <meta property="og:description" content="位运算&#43;dp&#43;数学集合 n个数分最少的互质组 注意集合子集写法 基本原理: 对每一种数字排列的组合进行一下判断：
 列举此组合的所有子集，如果这个子集是互质的，那这个组合的次数就是这个组合删除这个子集的集合的次数加上1，然后对所有的子集重复操作取最小值即时最终答案 void solve() { int n; cin &gt;&gt; n; vector&lt;int&gt; a(n); for (int i = 0; i &lt; n; i&#43;&#43;) { cin &gt;&gt; a[i]; } // 构造二维数组判断每两个数之间是否是互质的 vector&lt;vector&lt;bool&gt;&gt; p(n, vector&lt;bool&gt;(n, false)); for (int i = 0; i &lt; n; i&#43;&#43;) { for (int j = i &#43; 1; j &lt; n; j&#43;&#43;) { if (gcd(a[i], a[j]) &gt; 1) { p[i][j] = p[j][i] = true; } } } // 对于n个数中选取所有集合，判断这个集合是否是两两互质的，存储在q数组中 int full = 1 &lt;&lt; n; vector&lt;char&gt; q(full, 0); for (int mask = 0; mask &lt; full; mask&#43;&#43;) { bool ok = true; for (int i = 0; i &lt; n; i&#43;&#43;) { if (!((1 &lt;&lt; i) &amp; mask)) continue; for (int j = i &#43; 1; j &lt; n; j&#43;&#43;) { if (!((1 &lt;&lt; j) &amp; mask)) continue; if (p[i][j]) { ok = false; break; } } q[mask] = ok ? 1 : 0; } } vector&lt;int&gt; dp(full, 1e9); // dp[i]数组表示覆盖i个数所需要的最少数量 dp[0] = 0; for (int mask = 1; mask &lt; full; mask&#43;&#43;) { // 枚举每个mask的子集 for (int sub = mask; sub; sub = (sub - 1) &amp; mask) { if (q[sub]) { dp[mask] = min(dp[mask], dp[mask ^ sub] &#43; 1); } } } cout &lt;&lt; dp[full - 1] &lt;&lt; endl; return; } 位运算&#43;图基础 求树中任意两点之间的路径长度（具有记忆性） const ll INF = (1ll &lt;&lt; 60); void solve() { int n, Q; cin &gt;&gt; n &gt;&gt; Q; vector&lt;vector&lt;int&gt;&gt; g(n &#43; 1); // 建立邻接矩阵表 for (int i = 1; i &lt; n; i&#43;&#43;) { int a, b; cin &gt;&gt; a &gt;&gt; b; g[a].push_back(b); g[b].push_back(a); } int LOG = 1; while ((1 &lt;&lt; LOG) &lt;= n) &#43;&#43;LOG; vector&lt;int&gt; parent(n &#43; 1, 0), depth(n &#43; 1, 0); vector&lt;vector&lt;int&gt;&gt; up(n &#43; 1, vector&lt;int&gt;(LOG, 0)); // up[v][k]表示节点v跳2的k次方层的祖先 queue&lt;int&gt; q; q.push(1); // 1作为根节点，其他节点也可以 parent[1] = 0; depth[1] = 0; up[1][0] = 0; while (!q.empty()) { int x = q.front(); q.pop(); // 取出队头元素 for (int u : g[x]) { // 遍历当前节点的所有邻接点 if (u == parent[x]) { // 如果是自己的父节点则跳过 continue; } parent[u] = x; // 将剩余节点的父节点设置为当前取出的节点 depth[u] = depth[x] &#43; 1; // 深度加一 up[u][0] = x; // 记录父节点 q.push(u); // 队列添加元素 } } // 构造binary lifting表 for (int i = 1; i &lt; LOG; i&#43;&#43;) { for (int j = 1; j &lt;= n; j&#43;&#43;) { up[j][i] = up[up[j][i - 1]][i - 1]; } } // lamdba函数求LCA auto lca = [&amp;](int a, int b) { if (depth[a] &lt; depth[b]) swap(a, b); int diff = depth[a] - depth[b]; for (int i = 0; i &lt; LOG; i&#43;&#43;) { // 将a和b拉到同一深度 if (diff &amp; (1 &lt;&lt; LOG)) { a = up[a][i]; } } if (a == b) { return a; } for (int k = LOG - 1; k &gt;= 0; k--) { if (up[a][k] != up[b][k]) { a = up[a][k]; b = up[b][k]; } } return up[a][0]; }; while (Q--) { int c, d; cin &gt;&gt; c &gt;&gt; d; int L = lca(c, d); int dist = depth[c] &#43; depth[d] - 2 * depth[L]; cout &lt;&lt; dist &lt;&lt; endl; } return; }">
-  <meta property="og:locale" content="en_us">
+  <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2026-01-08T22:18:56+08:00">
@@ -139,7 +139,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" 
 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
 stroke-linejoin="round" class="feather feather-home">
-<title>Home</title>
+<title>首页</title>
 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
 <polyline points="9 22 9 12 15 12 15 22"></polyline>
 </svg>
@@ -156,22 +156,15 @@ stroke-linejoin="round" class="feather feather-home">
                 
                 
                 <li>
-                    <a class="menu-link " href="/">
-                        主页
-                    </a>
-                    
-                </li>
-                
-                <li>
                     <a class="menu-link " href="/about/">
-                        关于我
+                        about
                     </a>
                     
                 </li>
                 
                 <li>
                     <a class="menu-link " href="/categories/">
-                        分类
+                        categories
                     </a>
                     
                 </li>
